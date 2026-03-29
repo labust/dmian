@@ -565,25 +565,25 @@
     <div class="figure-grid">
       <div class="figure">
         <img src="static/01_velocity_timeseries.png" alt="Velocity time series" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <div class="fig-placeholder" style="display:none;">01_velocity_timeseries.png</div>
+        <!-- <div class="fig-placeholder" style="display:none;">01_velocity_timeseries.png</div> -->
         <p class="figure-caption"><b>Figure 2.</b> Velocity time series (x and y axes). DMIAN maintains alignment with ground truth across low and high-dynamic motion segments.</p>
       </div>
       <div class="figure">
         <img src="static/02_position_timeseries.png" alt="Position time series" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <div class="fig-placeholder" style="display:none;">02_position_timeseries.png</div>
+        <!-- <div class="fig-placeholder" style="display:none;">02_position_timeseries.png</div> -->
         <p class="figure-caption"><b>Figure 3.</b> Position time series (x and y axes). BeamsNet exhibits frequent outliers; INS-DVL shows noise jitter; DMIAN closely tracks ground truth.</p>
       </div>
     </div>
 
     <div class="figure">
       <img src="static/03_2d_trajectory.png" alt="2D trajectory comparison" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-      <div class="fig-placeholder" style="min-height:260px;">03_2d_trajectory.png</div>
+      <!-- <div class="fig-placeholder" style="min-height:260px;">03_2d_trajectory.png</div> -->
       <p class="figure-caption"><b>Figure 4.</b> Four representative evaluation trajectories. Trajectories 1–3 are manually driven with frequent direction changes; Trajectory 4 is autonomous. DMIAN maintains the closest alignment to ground truth across all four.</p>
     </div>
 
     <div class="figure">
       <img src="static/04_position_error.png" alt="Position error over time" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-      <div class="fig-placeholder" style="min-height:180px;">04_position_error.png</div>
+      <!-- <div class="fig-placeholder" style="min-height:180px;">04_position_error.png</div> -->
       <p class="figure-caption"><b>Figure 5.</b> Position estimation error over time for Trajectory 2. DMIAN (RMSE 0.50 m) caps the error at a lower level than BeamsNet (0.62 m) and INS-DVL (0.73 m).</p>
     </div>
   </section>
@@ -621,12 +621,12 @@
     <div class="figure-grid">
       <div class="figure">
         <img src="static/05_velocity_rmse_ablation.png" alt="Velocity RMSE ablation" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <div class="fig-placeholder">05_velocity_rmse_ablation.png</div>
+        <!-- <div class="fig-placeholder">05_velocity_rmse_ablation.png</div> -->
         <p class="figure-caption"><b>Figure 6.</b> Velocity RMSE distribution across trajectories per IMU configuration. Increasing IMU count reduces median error and variance.</p>
       </div>
       <div class="figure">
         <img src="static/06_position_error_ablation.png" alt="Position error ablation" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <div class="fig-placeholder">06_position_error_ablation.png</div>
+        <!-- <div class="fig-placeholder">06_position_error_ablation.png</div> -->
         <p class="figure-caption"><b>Figure 7.</b> Position error distribution per trajectory and IMU configuration. Gains from multi-IMU fusion are most visible in dynamic trajectories (2 and 4).</p>
       </div>
     </div>
@@ -634,18 +634,18 @@
     <div class="figure-grid">
       <div class="figure">
         <img src="static/07_cdf_drift_rate.png" alt="CDF drift rate" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <div class="fig-placeholder">07_cdf_drift_rate.png</div>
+        <!-- <div class="fig-placeholder">07_cdf_drift_rate.png</div> -->
         <p class="figure-caption"><b>Figure 8.</b> CDF of drift rate across the full test set. The 3 IMU configuration achieves lower drift for ~70% of test data.</p>
       </div>
       <div class="figure">
         <img src="static/08_cdf_position_rmse.png" alt="CDF position RMSE" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <div class="fig-placeholder">08_cdf_position_rmse.png</div>
+        <!-- <div class="fig-placeholder">08_cdf_position_rmse.png</div> -->
         <p class="figure-caption"><b>Figure 9.</b> CDF of position RMSE. The 3 IMU configuration reaches any given error threshold with higher probability than 1 and 2 IMU variants.</p>
       </div>
     </div>
   </section>
 
-  <!-- Usage -->
+  <!-- Usage
   <section id="usage">
     <p class="section-label">05 — Usage</p>
     <h2>Getting Started</h2>
@@ -675,7 +675,7 @@ bash src/run_all_ekf_tests.sh</pre>
       The dataset (MCAP format, ROS2) and pre-trained model weights are hosted at
       <a href="https://huggingface.co/datasets/matkodu/dmian-dataset" style="color:var(--accent);">huggingface.co/datasets/matkodu/dmian-dataset</a>.
     </p>
-  </section>
+  </section> -->
 
   <!-- Citation -->
   <section id="citation">
