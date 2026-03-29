@@ -9,13 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f5f4f0;
-      --surface: #ffffff;
-      --border: #d8d5cc;
+      --bg: #ffffff;
+      --border: #dde1e7;
       --text: #1a1917;
       --muted: #6b6860;
       --accent: #1a4fa0;
-      --accent-light: #e8eef8;
+      --header-bg: #ddeaf8;
+      --header-border: #b8d0ef;
       --mono: 'IBM Plex Mono', monospace;
       --sans: 'IBM Plex Sans', sans-serif;
       --serif: 'IBM Plex Serif', serif;
@@ -32,10 +32,9 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Header */
     header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--header-border);
       padding: 3rem 1.5rem 2.5rem;
       text-align: center;
     }
@@ -47,11 +46,11 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--accent);
-      background: var(--accent-light);
-      border: 1px solid #bfd0ef;
+      border: 1px solid var(--accent);
       border-radius: 2px;
       padding: 0.25rem 0.65rem;
       margin-bottom: 1.5rem;
+      background: rgba(255,255,255,0.5);
     }
 
     h1 {
@@ -66,20 +65,16 @@
 
     .authors {
       font-size: 0.97rem;
-      color: var(--muted);
+      color: #2a3a5a;
       margin-bottom: 0.4rem;
     }
 
-    .authors a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
+    .authors a { color: var(--accent); text-decoration: none; }
     .authors a:hover { text-decoration: underline; }
 
     .affiliation {
       font-size: 0.85rem;
-      color: var(--muted);
+      color: #4a5a7a;
       font-style: italic;
       margin-bottom: 2rem;
     }
@@ -106,255 +101,15 @@
       transition: background 0.15s, color 0.15s;
     }
 
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-
+    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
     .btn-primary:hover { background: #153d80; border-color: #153d80; }
+    .btn-outline { background: rgba(255,255,255,0.7); color: var(--accent); border-color: var(--accent); }
+    .btn-outline:hover { background: #fff; }
 
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border-color: var(--border);
-    }
-
-    .btn-outline:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
-
-    /* Layout */
-    main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 1.5rem 4rem;
-    }
-
-    /* Teaser image */
-    .teaser {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: none;
-      padding: 2rem;
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .teaser img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .teaser-caption {
-      font-size: 0.83rem;
-      color: var(--muted);
-      margin-top: 0.9rem;
-      font-style: italic;
-    }
-
-    /* Sections */
-    section {
-      margin-bottom: 3rem;
-    }
-
-    .section-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.6rem;
-    }
-
-    h2 {
-      font-family: var(--serif);
-      font-size: 1.35rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    p {
-      font-size: 0.97rem;
-      margin-bottom: 0.9rem;
-      color: var(--text);
-    }
-
-    /* Highlight stats bar */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-bottom: 2rem;
-    }
-
-    .stat-cell {
-      background: var(--surface);
-      padding: 1.1rem 1rem;
-      text-align: center;
-    }
-
-    .stat-value {
-      font-family: var(--mono);
-      font-size: 1.5rem;
-      font-weight: 500;
-      color: var(--accent);
-      display: block;
-      line-height: 1.1;
-      margin-bottom: 0.3rem;
-    }
-
-    .stat-label {
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.3;
-    }
-
-    /* Tables */
-    .table-wrap {
-      overflow-x: auto;
-      margin-bottom: 0.6rem;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.875rem;
-      font-family: var(--mono);
-    }
-
-    caption {
-      font-family: var(--sans);
-      font-size: 0.85rem;
-      color: var(--muted);
-      text-align: left;
-      margin-bottom: 0.5rem;
-      font-style: italic;
-    }
-
-    th {
-      background: #f0ede6;
-      font-weight: 500;
-      font-size: 0.78rem;
-      letter-spacing: 0.05em;
-      padding: 0.55rem 0.9rem;
-      text-align: left;
-      border-bottom: 2px solid var(--border);
-      white-space: nowrap;
-    }
-
-    td {
-      padding: 0.5rem 0.9rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: var(--accent-light); }
-
-    .best { font-weight: 600; color: var(--accent); }
-
-    .table-note {
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-style: italic;
-      margin-top: 0.4rem;
-      margin-bottom: 2rem;
-    }
-
-    /* Figures */
-    .figure {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      border-radius: 2px;
-    }
-
-    .figure img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .figure-caption {
-      font-size: 0.83rem;
-      color: var(--muted);
-      margin-top: 0.8rem;
-      line-height: 1.5;
-      font-style: italic;
-    }
-
-    .figure-caption b {
-      font-style: normal;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .figure-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    @media (max-width: 600px) {
-      .figure-grid { grid-template-columns: 1fr; }
-    }
-
-    /* BibTeX */
-    .bibtex {
-      background: #1a1917;
-      color: #c9c5bb;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      line-height: 1.7;
-      padding: 1.5rem;
-      border-radius: 3px;
-      overflow-x: auto;
-      white-space: pre;
-    }
-
-    .bibtex .key { color: #7baee8; }
-    .bibtex .val { color: #a8c98a; }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 1.5rem;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-family: var(--mono);
-    }
-
-    footer a { color: var(--accent); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    /* Placeholder figure */
-    .fig-placeholder {
-      background: #f0ede6;
-      border: 1px dashed var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 220px;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      text-align: center;
-      padding: 1rem;
-    }
-
-    /* Nav strip */
     nav {
       position: sticky;
       top: 0;
-      background: rgba(245,244,240,0.94);
+      background: rgba(255,255,255,0.95);
       backdrop-filter: blur(6px);
       border-bottom: 1px solid var(--border);
       z-index: 10;
@@ -363,7 +118,6 @@
 
     nav ul {
       display: flex;
-      gap: 0;
       list-style: none;
       max-width: 900px;
       margin: 0 auto;
@@ -384,6 +138,172 @@
     }
 
     nav a:hover { color: var(--accent); }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .teaser {
+      padding: 2.5rem 0 0;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .teaser img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border: 1px solid var(--border);
+    }
+
+    .teaser-caption {
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-top: 0.9rem;
+      font-style: italic;
+    }
+
+    section { margin-bottom: 3rem; }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    p { font-size: 0.97rem; margin-bottom: 0.9rem; }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-cell { background: #f7f9fc; padding: 1.1rem 1rem; text-align: center; }
+
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--accent);
+      display: block;
+      line-height: 1.1;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-label { font-size: 0.78rem; color: var(--muted); line-height: 1.3; }
+
+    .table-wrap { overflow-x: auto; margin-bottom: 0.6rem; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; font-family: var(--mono); }
+
+    caption {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: left;
+      margin-bottom: 0.5rem;
+      font-style: italic;
+    }
+
+    th {
+      background: #f0f4fa;
+      font-weight: 500;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      padding: 0.55rem 0.9rem;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td { padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f0f4fa; }
+    .best { font-weight: 600; color: var(--accent); }
+
+    .table-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 0.4rem;
+      margin-bottom: 2rem;
+    }
+
+    .figure {
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 2px;
+    }
+
+    .figure img { width: 100%; height: auto; display: block; }
+
+    .figure-caption {
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-top: 0.8rem;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .figure-caption b { font-style: normal; font-weight: 600; color: var(--text); }
+
+    .figure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    @media (max-width: 600px) { .figure-grid { grid-template-columns: 1fr; } }
+
+    .fig-placeholder {
+      background: #f5f7fa;
+      border: 1px dashed var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .bibtex {
+      background: #1a1917;
+      color: #c9c5bb;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      line-height: 1.7;
+      padding: 1.5rem;
+      border-radius: 3px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .bibtex .key { color: #7baee8; }
+    .bibtex .val { color: #a8c98a; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -405,12 +325,8 @@
       <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
       Code
     </a>
-    <a class="btn btn-outline" href="https://huggingface.co/datasets/matkodu/dmian-dataset">
-      🤗 Dataset
-    </a>
-    <a class="btn btn-outline" href="#">
-      Paper (coming soon)
-    </a>
+    <a class="btn btn-outline" href="https://huggingface.co/datasets/matkodu/dmian-dataset">Dataset</a>
+    <a class="btn btn-outline" href="#">Paper (coming soon)</a>
   </div>
 </header>
 
@@ -420,26 +336,23 @@
     <li><a href="#method">Method</a></li>
     <li><a href="#results">Results</a></li>
     <li><a href="#ablation">Ablation</a></li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#citation">Citation</a></li>
   </ul>
 </nav>
 
-<!-- Teaser -->
-<div class="teaser">
-  <!-- Replace with your actual system diagram image -->
-  <div class="fig-placeholder" style="min-height:280px;">
-    [ System workflow figure — replace with static/fig_system.png ]
+<div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+  <div class="teaser">
+    <img src="static/fig_system.png" alt="DMIAN system workflow" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+    <div class="fig-placeholder" style="display:none;">[ static/fig_system.png ]</div>
+    <p class="teaser-caption">
+      The DMIAN pipeline. Raw IMU and DVL data are aligned to a common body frame, fused by a multi-head attention LSTM,
+      and the resulting velocity estimates with learned covariances are integrated as EKF measurement updates.
+    </p>
   </div>
-  <p class="teaser-caption">
-    The DMIAN pipeline. Raw IMU and DVL data are aligned to a common body frame, fused by a multi-head attention LSTM network,
-    and the resulting velocity estimates with learned covariances are integrated as EKF measurement updates.
-  </p>
 </div>
 
 <main>
 
-  <!-- Key numbers -->
   <div class="stats-row">
     <div class="stat-cell">
       <span class="stat-value">&lt;5 ms</span>
@@ -463,9 +376,7 @@
     </div>
   </div>
 
-  <!-- Abstract -->
   <section id="abstract">
-    <p class="section-label">01 — Abstract</p>
     <h2>Abstract</h2>
     <p>
       Learned inertial odometry has advanced rapidly across domains, especially in GNSS-denied environments.
@@ -480,10 +391,8 @@
     </p>
   </section>
 
-  <!-- Method -->
   <section id="method">
-    <p class="section-label">02 — Method</p>
-    <h2>Architecture</h2>
+    <h2>Method</h2>
     <p>
       The network follows a multi-head LSTM architecture that fuses temporal information from up to three independent IMUs and a DVL sensor.
       Each IMU branch processes six-dimensional input sequences (tri-axial accelerometer and gyroscope), while the DVL branch processes three-dimensional velocity measurements.
@@ -494,27 +403,21 @@
       Two output heads predict the velocity components and their associated uncertainties respectively.
       The model assumes a diagonal covariance structure — one independent uncertainty per velocity component — which reduces complexity and guarantees a positive-definite measurement covariance for EKF integration.
     </p>
-    <div class="figure">
-      <!-- Replace with your actual architecture figure -->
-      <div class="fig-placeholder">[ Architecture figure — replace with static/fig_arch.png ]</div>
-      <p class="figure-caption">
-        <b>Figure 1.</b> Multi-head attention LSTM architecture. Each sensor modality is processed by an independent LSTM branch before fusion into a joint representation that feeds the dual velocity/uncertainty output heads.
-      </p>
-    </div>
-
-    <h2 style="margin-top:2rem;">Training</h2>
     <p>
       Training uses a two-phase objective. The first 20 epochs optimize Mean Squared Error (MSE) to stabilize velocity regression.
       The remaining epochs switch to Gaussian Negative Log-Likelihood (GNLL), jointly optimizing prediction accuracy and uncertainty calibration.
-      This prevents the model from trivially minimizing loss by predicting arbitrarily large uncertainties.
-      Training used batch sizes of 128, 64 and 32 with the Adam optimizer at an initial learning rate of 0.001, for a maximum of 100 epochs.
     </p>
+    <div class="figure">
+      <img src="static/fig_arch.png" alt="DMIAN architecture" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="fig-placeholder" style="display:none;">[ static/fig_arch.png ]</div>
+      <p class="figure-caption">
+        <b>Figure 1.</b> Multi-head attention LSTM architecture. Each sensor modality is processed by an independent LSTM branch before fusion into a joint representation that feeds the dual velocity and uncertainty output heads.
+      </p>
+    </div>
   </section>
 
-  <!-- Results -->
   <section id="results">
-    <p class="section-label">03 — Results</p>
-    <h2>Comparison with Baselines</h2>
+    <h2>Results</h2>
     <p>
       DMIAN is compared against BeamsNet (Cohen &amp; Klein, 2022), a state-of-the-art learning-based DVL velocity estimator, and a classical INS-DVL fusion baseline.
       All methods are trained and tested on identical dataset splits and preprocessing.
@@ -524,12 +427,7 @@
       <table>
         <caption>Table 1. Average velocity performance across evaluation trajectories.</caption>
         <thead>
-          <tr>
-            <th>Metric</th>
-            <th>BeamsNet</th>
-            <th>INS-DVL</th>
-            <th>DMIAN</th>
-          </tr>
+          <tr><th>Metric</th><th>BeamsNet</th><th>INS-DVL</th><th>DMIAN</th></tr>
         </thead>
         <tbody>
           <tr><td>MAE (m/s)</td><td>0.29090</td><td>0.28898</td><td class="best">0.19695</td></tr>
@@ -545,12 +443,7 @@
       <table>
         <caption>Table 2. Average position performance across evaluation trajectories.</caption>
         <thead>
-          <tr>
-            <th>Metric</th>
-            <th>BeamsNet</th>
-            <th>INS-DVL</th>
-            <th>DMIAN</th>
-          </tr>
+          <tr><th>Metric</th><th>BeamsNet</th><th>INS-DVL</th><th>DMIAN</th></tr>
         </thead>
         <tbody>
           <tr><td>MAE (m)</td><td>2.55717</td><td>0.91329</td><td class="best">0.86942</td></tr>
@@ -560,12 +453,12 @@
         </tbody>
       </table>
     </div>
-    <p class="table-note">Bold values indicate best performance. DMIAN achieves ~65% lower position RMSE vs. BeamsNet and ~11% improvement over INS-DVL.</p>
+    <p class="table-note">DMIAN achieves ~65% lower position RMSE vs. BeamsNet and ~11% improvement over INS-DVL.</p>
 
     <div class="figure-grid">
       <div class="figure">
         <img src="static/01_velocity_timeseries.png" alt="Velocity time series" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <!-- <div class="fig-placeholder" style="display:none;">01_velocity_timeseries.png</div> -->
+        <div class="fig-placeholder" style="display:none;">01_velocity_timeseries.png</div>
         <p class="figure-caption"><b>Figure 2.</b> Velocity time series (x and y axes). DMIAN maintains alignment with ground truth across low and high-dynamic motion segments.</p>
       </div>
       <div class="figure">
@@ -578,7 +471,7 @@
     <div class="figure">
       <img src="static/03_2d_trajectory.png" alt="2D trajectory comparison" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
       <!-- <div class="fig-placeholder" style="min-height:260px;">03_2d_trajectory.png</div> -->
-      <p class="figure-caption"><b>Figure 4.</b> Four representative evaluation trajectories. Trajectories 1–3 are manually driven with frequent direction changes; Trajectory 4 is autonomous. DMIAN maintains the closest alignment to ground truth across all four.</p>
+      <p class="figure-caption"><b>Figure 4.</b> Four representative evaluation trajectories. Trajectories 1–3 are manually driven; Trajectory 4 is autonomous. DMIAN maintains the closest alignment to ground truth across all four.</p>
     </div>
 
     <div class="figure">
@@ -588,12 +481,10 @@
     </div>
   </section>
 
-  <!-- Ablation -->
   <section id="ablation">
-    <p class="section-label">04 — Ablation Study</p>
-    <h2>Multi-IMU Configurations</h2>
+    <h2>Ablation Study</h2>
     <p>
-      The 1 IMU+DVL, 2 IMU+DVL, and 3 IMU+DVL configurations are ablation variants of the proposed model where only the number of IMU inputs is varied — the architecture and training procedure remain identical.
+      The 1 IMU+DVL, 2 IMU+DVL, and 3 IMU+DVL configurations vary only the number of IMU inputs — architecture and training procedure remain identical.
       To avoid selection bias, the 1 IMU and 2 IMU configurations report average performance across all possible IMU combinations.
     </p>
 
@@ -601,12 +492,7 @@
       <table>
         <caption>Table 3. Average velocity performance of proposed model variants.</caption>
         <thead>
-          <tr>
-            <th>Metric</th>
-            <th>1 IMU + DVL</th>
-            <th>2 IMU + DVL</th>
-            <th>3 IMU + DVL</th>
-          </tr>
+          <tr><th>Metric</th><th>1 IMU + DVL</th><th>2 IMU + DVL</th><th>3 IMU + DVL</th></tr>
         </thead>
         <tbody>
           <tr><td>MAE (m/s)</td><td>0.19756</td><td>0.19747</td><td class="best">0.19695</td></tr>
@@ -622,12 +508,12 @@
       <div class="figure">
         <img src="static/05_velocity_rmse_ablation.png" alt="Velocity RMSE ablation" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
         <!-- <div class="fig-placeholder">05_velocity_rmse_ablation.png</div> -->
-        <p class="figure-caption"><b>Figure 6.</b> Velocity RMSE distribution across trajectories per IMU configuration. Increasing IMU count reduces median error and variance.</p>
+        <p class="figure-caption"><b>Figure 6.</b> Velocity RMSE distribution across trajectories per IMU configuration.</p>
       </div>
       <div class="figure">
         <img src="static/06_position_error_ablation.png" alt="Position error ablation" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
         <!-- <div class="fig-placeholder">06_position_error_ablation.png</div> -->
-        <p class="figure-caption"><b>Figure 7.</b> Position error distribution per trajectory and IMU configuration. Gains from multi-IMU fusion are most visible in dynamic trajectories (2 and 4).</p>
+        <p class="figure-caption"><b>Figure 7.</b> Position error distribution per trajectory and IMU configuration. Gains are most visible in dynamic trajectories.</p>
       </div>
     </div>
 
@@ -640,47 +526,13 @@
       <div class="figure">
         <img src="static/08_cdf_position_rmse.png" alt="CDF position RMSE" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
         <!-- <div class="fig-placeholder">08_cdf_position_rmse.png</div> -->
-        <p class="figure-caption"><b>Figure 9.</b> CDF of position RMSE. The 3 IMU configuration reaches any given error threshold with higher probability than 1 and 2 IMU variants.</p>
+        <p class="figure-caption"><b>Figure 9.</b> CDF of position RMSE. The 3 IMU configuration reaches any given error threshold with higher probability.</p>
       </div>
     </div>
   </section>
 
-  <!-- Usage
-  <section id="usage">
-    <p class="section-label">05 — Usage</p>
-    <h2>Getting Started</h2>
-    <p>The dataset is publicly available on HuggingFace. The code requires Python 3.8+, PyTorch, and ROS2 Humble.</p>
-
-    <h2 style="font-size:1rem;font-family:var(--mono);font-weight:500;border-bottom:none;margin-bottom:0.5rem;padding-bottom:0;">Quick start — test with pre-trained model</h2>
-    <pre class="bibtex">git clone https://github.com/labust/dmian
-cd dmian
-pip install -r requirements.txt
-
-<span class="key"># Download dataset from HuggingFace</span>
-python src/download_dataset.py
-
-<span class="key"># Run inference with the pre-trained model</span>
-python src/test_script.py --config config_imu1.yaml</pre>
-
-    <h2 style="font-size:1rem;font-family:var(--mono);font-weight:500;border-bottom:none;margin-bottom:0.5rem;padding-bottom:0;margin-top:1.2rem;">Train from scratch</h2>
-    <pre class="bibtex">python src/train_script.py --config config_imu1.yaml
-
-<span class="key"># Run EKF fusion with trained model</span>
-python src/ekf.py --config config_imu1.yaml
-
-<span class="key"># Evaluate all IMU configurations</span>
-bash src/run_all_ekf_tests.sh</pre>
-
-    <p style="margin-top:1rem;">
-      The dataset (MCAP format, ROS2) and pre-trained model weights are hosted at
-      <a href="https://huggingface.co/datasets/matkodu/dmian-dataset" style="color:var(--accent);">huggingface.co/datasets/matkodu/dmian-dataset</a>.
-    </p>
-  </section> -->
-
-  <!-- Citation -->
   <section id="citation">
-    <p class="section-label">06 — Citation</p>
-    <h2>BibTeX</h2>
+    <h2>Citation</h2>
     <pre class="bibtex"><span class="key">@article</span>{batos2025dmian,
   <span class="key">title</span>   = {<span class="val">DMIAN: Deep Learning-Based Multi-IMU Fusion for Enhanced Marine Aided Navigation</span>},
   <span class="key">author</span>  = {<span class="val">Bato\v{s}, Matko and Na\dj{}, \Djula</span>},
