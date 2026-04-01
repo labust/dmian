@@ -1,0 +1,22 @@
+name: dmian
+channels:
+  - nvidia
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - numpy<2
+  - scipy
+  - matplotlib
+  - pandas
+  - pyyaml
+  - tqdm
+  - pytorch=2.1.2
+  - torchvision=0.16.2
+  - torchaudio=2.1.2
+  - pytorch-cuda=12.1  
+  - pip:
+      - mcap>=1.1.0
+      - mcap-ros2-support>=0.5.0
+      - wandb

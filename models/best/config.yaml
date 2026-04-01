@@ -1,0 +1,112 @@
+dataset:
+  noise:
+    dvl_noise_std: 0.02
+    imu_bias_drift: 0.005
+    imu_noise_std: 0.01
+  sensor_fps:
+    dvl: 5
+    ground_truth: 10
+    imu: 100
+  sensor_stats:
+    dvl:
+      mean:
+      - 0.011046815221299024
+      - 0.004939178408311806
+      - 0.0034837043130408565
+      std:
+      - 0.27054769008742047
+      - 0.21983299367543008
+      - 0.022877865968631672
+    ground_truth:
+      mean:
+      - 0.02897099502000399
+      - 0.020892181931996073
+      - 0.0
+      std:
+      - 0.28834204106918837
+      - 0.1907240453751593
+      - 0.0
+    imu_imu1:
+      mean:
+      - -0.07718819038198829
+      - -0.4101090464821184
+      - 9.791976450899968
+      - -0.0005335628204381773
+      - -0.0014070430744573873
+      - 0.05931808474228564
+      std:
+      - 0.32871113433673926
+      - 0.3555807219259309
+      - 0.14317922683541734
+      - 0.04609056971254671
+      - 0.041716966508023645
+      - 0.39383120861549303
+    imu_imu2:
+      mean:
+      - 0.23850898306579665
+      - -0.23450158175547323
+      - 9.794821232660828
+      - 0.0007844710491550344
+      - 0.0010736217503429957
+      - 0.05930787466464946
+      std:
+      - 0.3214922007265652
+      - 0.34485226293459237
+      - 0.1564141570751225
+      - 0.046142391126988334
+      - 0.03965387452750404
+      - 0.3940827613640609
+    imu_imu3:
+      mean:
+      - -0.30657037900601514
+      - -0.1564467645360388
+      - 9.79405061807239
+      - -0.001998050916002059
+      - -0.0011799143022189415
+      - 0.059118437441101124
+      std:
+      - 0.33715428815319604
+      - 0.3654549294904513
+      - 0.186183393441381
+      - 0.04749205296909759
+      - 0.040090286271085976
+      - 0.3935267993056189
+  seq_duration: 4.0
+  seq_sample_density: 10.0
+  test_dirs:
+  - ../dmian-dataset/test/trajectory_01
+  - ../dmian-dataset/test/trajectory_02
+  - ../dmian-dataset/test/trajectory_03
+  - ../dmian-dataset/test/trajectory_04
+  - ../dmian-dataset/test/trajectory_05
+  train_dirs:
+  - ../dmian-dataset/train/trajectory_06
+  - ../dmian-dataset/train/trajectory_07
+  - ../dmian-dataset/train/trajectory_08
+  - ../dmian-dataset/train/trajectory_09
+  - ../dmian-dataset/train/trajectory_10
+  - ../dmian-dataset/train/trajectory_11
+  val_dirs:
+  - ../dmian-dataset/val/trajectory_12
+  - ../dmian-dataset/val/trajectory_13
+network:
+  dropout: 0.2
+  hidden_size: 64
+  num_lstm_layers: 2
+  num_models: 3
+training:
+  batch_size:
+    test: 16
+    train: 32
+  early_stopping_patience: 20
+  gnll_start_epoch: 10
+  learning_rate: 0.001
+  loss_weights:
+    gnll_weight: 1.0
+    mse_weight: 1.0
+  max_epochs: 100
+  save_dir: ../models
+  scheduler:
+    factor: 0.5
+    patience: 10
+  weight_decay: 0.0001
