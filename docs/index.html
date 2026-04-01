@@ -1,554 +1,638 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DMIAN: Deep Learning-Based Multi-IMU Fusion for Enhanced Marine Aided Navigation</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DMIAN: Deep Learning-Based Multi-IMU Fusion for Enhanced Marine Aided Navigation">
+  <title>DMIAN: Deep Multi-IMU Aided Navigation</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg: #ffffff;
-      --border: #dde1e7;
-      --text: #1a1917;
-      --muted: #6b6860;
-      --accent: #1a4fa0;
-      --header-bg: #ddeaf8;
-      --header-border: #b8d0ef;
-      --mono: 'IBM Plex Mono', monospace;
-      --sans: 'IBM Plex Sans', sans-serif;
-      --serif: 'IBM Plex Serif', serif;
+      --blue-dark: #0033a0;
+      --blue-light: #00aeef;
+      --blue-pale: #eef6fc;
+      --text: #1a1a2e;
+      --text-muted: #5a6a7a;
+      --border: #d0dde8;
+      --white: #ffffff;
+      --bg-alt: #f7f9fb;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: var(--bg);
+      font-family: 'IBM Plex Sans', sans-serif;
       color: var(--text);
-      font-family: var(--sans);
-      font-size: 16px;
+      background: var(--white);
       line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
+      font-size: 16px;
     }
 
-    header {
-      background: var(--header-bg);
-      border-bottom: 1px solid var(--header-border);
-      padding: 3rem 1.5rem 2.5rem;
+    /* HERO */
+    .hero {
+      background: #0033a0;
+      padding: 3rem 1.5rem;
+      color: white;
+    }
+    .hero-inner {
+      max-width: 860px;
+      margin: 0 auto;
       text-align: center;
     }
-
-    .venue-tag {
-      display: inline-block;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      border-radius: 2px;
-      padding: 0.25rem 0.65rem;
-      margin-bottom: 1.5rem;
-      background: rgba(255,255,255,0.5);
-    }
-
-    h1 {
-      font-family: var(--serif);
-      font-size: clamp(1.4rem, 3.5vw, 2.1rem);
-      font-weight: 600;
+    .hero h1 {
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      font-weight: 700;
       line-height: 1.3;
-      max-width: 780px;
-      margin: 0 auto 1.5rem;
-      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      color: white;
     }
-
-    .authors {
-      font-size: 0.97rem;
-      color: #2a3a5a;
-      margin-bottom: 0.4rem;
+    .hero-authors {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.35rem;
     }
-
-    .authors a { color: var(--accent); text-decoration: none; }
-    .authors a:hover { text-decoration: underline; }
-
-    .affiliation {
-      font-size: 0.85rem;
-      color: #4a5a7a;
-      font-style: italic;
-      margin-bottom: 2rem;
+    .hero-affil {
+      font-size: 0.84rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
     }
-
-    .btn-row {
+    .hero-links {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
+      gap: 0.75rem;
       justify-content: center;
+      flex-wrap: wrap;
     }
-
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      padding: 0.5rem 1.1rem;
-      border-radius: 3px;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      text-decoration: none;
-      border: 1.5px solid;
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .btn-primary:hover { background: #153d80; border-color: #153d80; }
-    .btn-outline { background: rgba(255,255,255,0.7); color: var(--accent); border-color: var(--accent); }
-    .btn-outline:hover { background: #fff; }
-
-    nav {
-      position: sticky;
-      top: 0;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid var(--border);
-      z-index: 10;
-      padding: 0 1.5rem;
-    }
-
-    nav ul {
-      display: flex;
-      list-style: none;
-      max-width: 900px;
-      margin: 0 auto;
-      overflow-x: auto;
-    }
-
-    nav a {
-      display: block;
-      padding: 0.65rem 0.9rem;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      white-space: nowrap;
-      transition: color 0.15s;
-    }
-
-    nav a:hover { color: var(--accent); }
-
-    main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 1.5rem 4rem;
-    }
-
-    .teaser {
-      padding: 2.5rem 0 0;
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .teaser img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-      border: 1px solid var(--border);
-    }
-
-    .teaser-caption {
-      font-size: 0.83rem;
-      color: var(--muted);
-      margin-top: 0.9rem;
-      font-style: italic;
-    }
-
-    section { margin-bottom: 3rem; }
-
-    h2 {
-      font-family: var(--serif);
-      font-size: 1.35rem;
+      gap: 0.4rem;
+      padding: 0.48rem 1.1rem;
+      border-radius: 4px;
+      font-size: 0.84rem;
       font-weight: 600;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      cursor: pointer;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn:hover { background: rgba(255,255,255,0.18); border-color: white; }
+
+    /* SECTIONS */
+    .section { padding: 3rem 1.5rem; }
+    .section-alt { background: var(--bg-alt); }
+    .container { max-width: 860px; margin: 0 auto; }
+
+    h2.section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid var(--blue-light);
+      display: inline-block;
     }
 
-    p { font-size: 0.97rem; margin-bottom: 0.9rem; }
-
-    .stats-row {
+    /* INTRO FIGURES (before highlight cards) */
+    .intro-figures {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-bottom: 2.5rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 0.55rem;
     }
+    .intro-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    @media (max-width: 640px) { .intro-figures { grid-template-columns: 1fr; } }
 
-    .stat-cell { background: #f7f9fc; padding: 1.1rem 1rem; text-align: center; }
-
-    .stat-value {
-      font-family: var(--mono);
+    /* HIGHLIGHT CARDS */
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.9rem;
+      margin-top: 1.75rem;
+    }
+    .highlight-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem 0.85rem;
+      text-align: center;
+      background: white;
+    }
+    .highlight-card .val {
       font-size: 1.5rem;
-      font-weight: 500;
-      color: var(--accent);
-      display: block;
+      font-weight: 700;
+      color: var(--blue-dark);
+      font-family: 'IBM Plex Mono', monospace;
       line-height: 1.1;
-      margin-bottom: 0.3rem;
+    }
+    .highlight-card .lbl {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
     }
 
-    .stat-label { font-size: 0.78rem; color: var(--muted); line-height: 1.3; }
-
-    .table-wrap { overflow-x: auto; margin-bottom: 0.6rem; }
-
-    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; font-family: var(--mono); }
-
-    caption {
-      font-family: var(--sans);
-      font-size: 0.85rem;
-      color: var(--muted);
-      text-align: left;
-      margin-bottom: 0.5rem;
+    /* FIGURES */
+    .fig-caption {
+      font-size: 0.81rem;
+      color: var(--text-muted);
+      margin-top: 0.55rem;
       font-style: italic;
+      text-align: center;
     }
-
-    th {
-      background: #f0f4fa;
-      font-weight: 500;
-      font-size: 0.78rem;
-      letter-spacing: 0.05em;
-      padding: 0.55rem 0.9rem;
-      text-align: left;
-      border-bottom: 2px solid var(--border);
-      white-space: nowrap;
-    }
-
-    td { padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--border); }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: #f0f4fa; }
-    .best { font-weight: 600; color: var(--accent); }
-
-    .table-note {
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-style: italic;
-      margin-top: 0.4rem;
-      margin-bottom: 2rem;
-    }
-
-    .figure {
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      border-radius: 2px;
-    }
-
-    .figure img { width: 100%; height: auto; display: block; }
-
-    .figure-caption {
-      font-size: 0.83rem;
-      color: var(--muted);
-      margin-top: 0.8rem;
-      line-height: 1.5;
-      font-style: italic;
-    }
-
-    .figure-caption b { font-style: normal; font-weight: 600; color: var(--text); }
-
-    .figure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
-    @media (max-width: 600px) { .figure-grid { grid-template-columns: 1fr; } }
-
-    .fig-placeholder {
-      background: #f5f7fa;
-      border: 1px dashed var(--border);
+    img.fig { width: 100%; height: auto; display: block; }
+    .plot-placeholder {
+      background: #f0f4f8;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 220px;
-      color: var(--muted);
-      font-family: var(--mono);
+      color: var(--text-muted);
       font-size: 0.78rem;
-      text-align: center;
-      padding: 1rem;
+      font-style: italic;
     }
 
-    .bibtex {
-      background: #1a1917;
-      color: #c9c5bb;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      line-height: 1.7;
-      padding: 1.5rem;
+    /* ABSTRACT */
+    .abstract-text { font-size: 0.94rem; line-height: 1.75; }
+    .kw-tag {
+      display: inline-block;
+      background: var(--blue-pale);
+      color: var(--blue-dark);
+      border: 1px solid #b8d8ef;
       border-radius: 3px;
-      overflow-x: auto;
-      white-space: pre;
+      font-size: 0.75rem;
+      padding: 0.17rem 0.48rem;
+      margin: 0.2rem 0.15rem 0 0;
+      font-weight: 500;
     }
 
-    .bibtex .key { color: #7baee8; }
-    .bibtex .val { color: #a8c98a; }
+    /* CONTRIBUTIONS */
+    .contrib-list { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+    .contrib-list li { display: flex; gap: 0.8rem; align-items: flex-start; font-size: 0.92rem; }
+    .contrib-icon {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      color: var(--blue-dark);
+      font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 0.15rem;
+    }
 
+    /* TABLES */
+    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+    table th {
+      background: var(--blue-dark);
+      color: white;
+      padding: 0.5rem 0.8rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.77rem;
+    }
+    table td { padding: 0.48rem 0.8rem; border-bottom: 1px solid var(--border); }
+    table tr:last-child td { border-bottom: none; }
+    table tr:nth-child(even) td { background: var(--blue-pale); }
+    .best { font-weight: 700; }
+    .table-title { font-size: 0.81rem; color: var(--text-muted); margin-bottom: 0.45rem; }
+    .table-wrap { overflow-x: auto; }
+
+    /* LAYOUT HELPERS */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; align-items: start; }
+    @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ABLATION */
+    details.ablation-block {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 0.8rem;
+    }
+    details.ablation-block summary {
+      background: var(--blue-pale);
+      padding: 0.7rem 1rem;
+      font-weight: 600;
+      font-size: 0.86rem;
+      color: var(--blue-dark);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      user-select: none;
+    }
+    details.ablation-block summary::-webkit-details-marker { display: none; }
+    details.ablation-block summary .toggle-icon {
+      margin-left: auto;
+      font-size: 0.7rem;
+      transition: transform 0.2s;
+    }
+    details.ablation-block[open] summary .toggle-icon { transform: rotate(180deg); }
+    details.ablation-block .details-inner { padding: 1.2rem; background: white; }
+
+    /* CITATION */
+    .citation-block {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+    }
+    .citation-block pre {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.81rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+      background: white;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    /* CONTACT */
+    .contact-block { font-size: 0.94rem; }
+    .contact-block a { color: var(--blue-dark); font-weight: 600; text-decoration: none; }
+    .contact-block a:hover { text-decoration: underline; }
+    .contact-block .affil { font-size: 0.865rem; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.6; }
+
+    /* FOOTER */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 1.5rem;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-family: var(--mono);
+      background: #0033a0;
+      color: rgba(255,255,255,0.78);
+      padding: 2rem 1.5rem;
     }
+    .footer-inner { max-width: 860px; margin: 0 auto; text-align: center; }
+    .footer-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      margin-bottom: 1.2rem;
+    }
+    .footer-logos img {
+      height: 46px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 1.0;
+    }
+    .footer-logos img.tall { height: 54px; }
+    .footer-title { font-size: 0.88rem; font-weight: 600; margin-bottom: 0.3rem; color: white; }
+    .footer-sub { font-size: 0.78rem; color: rgba(255,255,255,0.48); line-height: 1.7; }
+    .footer-sub a { color: rgba(255,255,255,0.68); text-decoration: none; }
 
-    footer a { color: var(--accent); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
+    p + p { margin-top: 0.72rem; }
+    .section-intro { font-size: 0.91rem; color: var(--text-muted); margin-bottom: 1.2rem; }
+    .arch-desc { font-size: 0.91rem; line-height: 1.72; }
+    .arch-desc p + p { margin-top: 0.72rem; }
+    .arch-desc strong { color: var(--blue-dark); }
+    .gap-top { margin-top: 1.4rem; }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="venue-tag">Marine Robotics &amp; Inertial Navigation</div>
-  <h1>DMIAN: Deep Learning-Based Multi-IMU Fusion for Enhanced Marine Aided Navigation</h1>
-  <p class="authors">
-    <a href="mailto:matko.batos@fer.unizg.hr">Matko Batoš</a>,&ensp;
-    <a href="mailto:dula.nad@fer.unizg.hr">Đula Nađ</a>
-  </p>
-  <p class="affiliation">
-    Laboratory for Underwater Systems and Technologies (LABUST),<br>
-    Faculty of Electrical Engineering and Computing, University of Zagreb &middot;
-    Centre of Excellence in Maritime Robotics (CoE MARBLE)
-  </p>
-  <div class="btn-row">
-    <a class="btn btn-primary" href="https://github.com/labust/dmian">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-      Code
-    </a>
-    <a class="btn btn-outline" href="https://huggingface.co/datasets/matkodu/dmian-dataset">Dataset</a>
-    <a class="btn btn-outline" href="#">Paper (coming soon)</a>
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <h1>DMIAN: Deep Learning-Based Multi-IMU Fusion for Enhanced Marine Aided Navigation</h1>
+    <div class="hero-authors">Matko Batoš &nbsp;&middot;&nbsp; Đula Nađ</div>
+    <div class="hero-affil">
+      University of Zagreb &nbsp;&middot;&nbsp; Faculty of Electrical Engineering and Computing<br>
+      Laboratory for Underwater Systems and Technologies (LABUST)<br>
+      Centre of Excellence in Maritime Robotics and Technologies for Sustainable Blue Economy (CoE MARBLE)
+    </div>
+    <div class="hero-links">
+      <a href="#" class="btn" onclick="alert('Paper link will be available after publication.'); return false;">
+        <i class="fas fa-file-lines"></i> Paper
+      </a>
+      <a href="https://github.com/labust/dmian" target="_blank" class="btn">
+        <i class="fab fa-github"></i> Code
+      </a>
+      <a href="https://huggingface.co/datasets/matkodu/dmian-dataset" target="_blank" class="btn">
+        <i class="fas fa-database"></i> Dataset
+      </a>
+    </div>
   </div>
 </header>
 
-<nav>
-  <ul>
-    <li><a href="#abstract">Abstract</a></li>
-    <li><a href="#method">Method</a></li>
-    <li><a href="#results">Results</a></li>
-    <li><a href="#ablation">Ablation</a></li>
-    <li><a href="#citation">Citation</a></li>
-  </ul>
-</nav>
+  <!-- OPENING SECTION -->
+  <section class="section" id="overview">
+    <div class="container">
 
-<div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
-  <div class="teaser">
-    <img src="static/fig_system.png" alt="DMIAN system workflow" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-    <div class="fig-placeholder" style="display:none;">[ static/fig_system.png ]</div>
-    <p class="teaser-caption">
-      The DMIAN pipeline. Raw IMU and DVL data are aligned to a common body frame, fused by a multi-head attention LSTM,
-      and the resulting velocity estimates with learned covariances are integrated as EKF measurement updates.
-    </p>
-  </div>
-</div>
-
-<main>
-
-  <div class="stats-row">
-    <div class="stat-cell">
-      <span class="stat-value">&lt;5 ms</span>
-      <span class="stat-label">Inference time<br>(GPU &amp; CPU)</span>
+      <div class="intro-figures">
+    <div>
+      <img src="./static/results/traj4_vel_1.png" alt="Velocity estimate" class="fig"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="plot-placeholder" style="height:175px;display:none;">./static/results/01_velocity_timeseries.png</div>
     </div>
-    <div class="stat-cell">
-      <span class="stat-value">0.229 m/s</span>
-      <span class="stat-label">Velocity RMSE<br>(3 IMU + DVL)</span>
-    </div>
-    <div class="stat-cell">
-      <span class="stat-value">0.946 m</span>
-      <span class="stat-label">Position RMSE<br>(3 IMU + DVL)</span>
-    </div>
-    <div class="stat-cell">
-      <span class="stat-value">0.914</span>
-      <span class="stat-label">R² score<br>velocity</span>
-    </div>
-    <div class="stat-cell">
-      <span class="stat-value">~2.5 h</span>
-      <span class="stat-label">Training data<br>collected</span>
+    <div>
+      <img src="./static/results/traj4_pos_1.png" alt="Position estimate" class="fig"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="plot-placeholder" style="height:175px;display:none;">./static/results/02_position_timeseries.png</div>
     </div>
   </div>
+  <p class="fig-caption">Estimated results from the proposed method. Left: velocity over time. Right: position over time.</p>
 
-  <section id="abstract">
-    <h2>Abstract</h2>
-    <p>
-      Learned inertial odometry has advanced rapidly across domains, especially in GNSS-denied environments.
-      This paper introduces a learning-based approach that combines multiple IMUs with a DVL to improve velocity estimation for marine vehicles.
-      The proposed method employs a multi-head attention Long Short-Term Memory network to fuse temporally and spatially distributed inertial signals with aiding velocity measurements.
-      The model outputs both velocity estimates and their corresponding covariances, which are integrated as measurement updates within an Extended Kalman Filter (EKF).
-    </p>
-    <p>
-      This hybrid design allows learned features to complement traditional state estimation while maintaining filter consistency.
-      The system is implemented and validated on the H2OmniX Autonomous Surface Vehicle through both manual and autonomous trajectories.
-      The multi-IMU and DVL fusion provides the most accurate results, whereas models with reduced IMU configurations continue to deliver reliable estimations when additional data are unavailable.
-    </p>
-  </section>
+    <!-- Highlight cards after the figures -->
+    <div class="highlights">
+      <div class="highlight-card">
+        <div class="val">4.3 ms</div>
+        <div class="lbl">Inference time (CPU)</div>
+      </div>
+      <div class="highlight-card">
+        <div class="val">0.11</div>
+        <div class="lbl">Vel. RMSE (m/s)</div>
+      </div>
+      <div class="highlight-card">
+        <div class="val">0.88</div>
+        <div class="lbl">R² Score</div>
+      </div>
+      <div class="highlight-card">
+        <div class="val">0.804</div>
+        <div class="lbl">Pos. RMSE (m)</div>
+      </div>
+      <div class="highlight-card">
+        <div class="val">54.6%</div>
+        <div class="lbl">Improvement vs INS-DVL</div>
+      </div>
+      <div class="highlight-card">
+        <div class="val">27.5%</div>
+        <div class="lbl">Improvement vs NN baseline</div>
+      </div>
+    </div>
 
-  <section id="method">
-    <h2>Method</h2>
-    <p>
-      The network follows a multi-head LSTM architecture that fuses temporal information from up to three independent IMUs and a DVL sensor.
-      Each IMU branch processes six-dimensional input sequences (tri-axial accelerometer and gyroscope), while the DVL branch processes three-dimensional velocity measurements.
-      All sensor branches are implemented as separate LSTM heads with 64 hidden units, followed by fully connected fusion layers.
+  </div>
+</section>
+
+<!-- ABSTRACT -->
+<section class="section section-alt" id="abstract">
+  <div class="container">
+    <h2 class="section-title">Abstract</h2>
+    <p class="abstract-text">
+      Learned inertial odometry has advanced rapidly across domains, especially in GNSS-denied environments. This paper introduces a learning-based approach that combines multiple IMUs with a DVL to improve velocity estimation for marine vehicles. The proposed method employs a multi-head attention Long Short-Term Memory network to fuse temporally and spatially distributed inertial signals with aiding velocity measurements. The model outputs both velocity estimates and their corresponding covariances, which are integrated as measurement updates within an EKF. This hybrid design allows learned features to complement traditional state estimation while maintaining filter consistency. The system is implemented and validated on the H2OmniX platform through a diverse set of trajectories. The method takes less than 5 ms for inference both on the GPU and the CPU, demonstrating less than 0.11 m/s RMSE and more than 0.88 R² in unseen trajectories through all ablation studies. The multi-IMU and DVL fusion provides the most accurate results, whereas the models with other IMU configurations continue to deliver reliable estimations when additional data are unavailable.
     </p>
-    <p>
-      The output hidden states from all branches are concatenated into a joint feature vector.
-      Two output heads predict the velocity components and their associated uncertainties respectively.
-      The model assumes a diagonal covariance structure — one independent uncertainty per velocity component — which reduces complexity and guarantees a positive-definite measurement covariance for EKF integration.
-    </p>
-    <p>
-      Training uses a two-phase objective. The first 20 epochs optimize Mean Squared Error (MSE) to stabilize velocity regression.
-      The remaining epochs switch to Gaussian Negative Log-Likelihood (GNLL), jointly optimizing prediction accuracy and uncertainty calibration.
-    </p>
-    <div class="figure">
-      <img src="static/fig_arch.png" alt="DMIAN architecture" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-      <div class="fig-placeholder" style="display:none;">[ static/fig_arch.png ]</div>
-      <p class="figure-caption">
-        <b>Figure 1.</b> Multi-head attention LSTM architecture. Each sensor modality is processed by an independent LSTM branch before fusion into a joint representation that feeds the dual velocity and uncertainty output heads.
+    <div style="margin-top:0.9rem;">
+      <span class="kw-tag">Deep Learning</span>
+      <span class="kw-tag">Inertial Navigation</span>
+      <span class="kw-tag">Multi-IMU</span>
+      <span class="kw-tag">LSTM</span>
+      <span class="kw-tag">ASV</span>
+      <span class="kw-tag">DVL</span>
+      <span class="kw-tag">EKF</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTRIBUTIONS -->
+<section class="section" id="contributions">
+  <div class="container">
+    <h2 class="section-title">Contributions</h2>
+    <ul class="contrib-list">
+      <li>
+        <div class="contrib-icon"><i class="fas fa-layer-group"></i></div>
+        <div>A data-driven method that accurately predicts vehicle velocities and their covariances through the fusion of a multi-IMU setup and additional aiding sensors, enabling direct integration within a standard EKF.</div>
+      </li>
+      <li>
+        <div class="contrib-icon"><i class="fas fa-brain"></i></div>
+        <div>A multi-head attention LSTM architecture where each sensor branch independently extracts temporal motion features before fusion into velocity and uncertainty output heads.</div>
+      </li>
+      <li>
+        <div class="contrib-icon"><i class="fas fa-sliders-h"></i></div>
+        <div>Flexible fusion that handles any subset of available sensors at inference time, providing reliable estimations even when DVL or individual IMUs are unavailable.</div>
+      </li>
+      <li>
+        <div class="contrib-icon"><i class="fas fa-flask"></i></div>
+        <div>Extensive experimental validation on the H2OmniX ASV, including ablation studies across all IMU configurations and comparison against other baselines.</div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- SYSTEM DESIGN -->
+<section class="section section-alt" id="system">
+  <div class="container">
+    <h2 class="section-title">System Design</h2>
+    <div class="two-col">
+      <div>
+        <img src="./static/system/h2omnix_sensor_setup.png" alt="H2OmniX sensor setup" class="fig"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="plot-placeholder" style="height:250px;display:none;">./static/system/h2omnix_sensor_setup.png</div>
+        <p class="fig-caption">H2OmniX ASV with the multi-IMU enclosure and DVL mounted underneath.</p>
+      </div>
+      <div class="arch-desc">
+        <p><strong>Platform.</strong> The H2OmniX is an omnidirectional ASV developed at LABUST. It measures 1 m in length, weighs approximately 15 kg, and runs navigation software on ROS2 Humble.</p>
+        <p><strong>Sensor setup.</strong> Three Xsens MTi-630R IMUs are mounted orthogonally in a perpendicular triad inside an IP-rated enclosure at 100 Hz. A NavQuest 600 Micro DVL is mounted beneath the platform providing 3-axis velocity at 5 Hz.</p>
+        <p><strong>EKF.</strong> A constant-acceleration motion model with state vector <em>x = [p, Θ, v, ω, a]</em>. All configurations share the same prediction model and process noise Q.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section class="section" id="method">
+  <div class="container">
+    <h2 class="section-title">Method</h2>
+    <p class="section-intro">Raw IMU and DVL data are transformed to a common body frame, then passed to the multi-head LSTM. Predicted velocities and diagonal covariances serve as EKF measurement updates.</p>
+    <div style="margin-bottom:1.5rem;">
+      <img src="./static/system/system_workflow.png" alt="System workflow" class="fig"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="plot-placeholder" style="height:210px;display:none;">./static/system/system_workflow.png</div>
+      <p class="fig-caption">System workflow from raw sensor data to EKF state variables.</p>
+    </div>
+    <div class="arch-desc">
+      <p><strong>Architecture.</strong> Each of the three IMU branches and the DVL branch is an independent 2-layer LSTM with 64 hidden units. Branch outputs are concatenated and passed through fully connected fusion layers into a velocity head and an uncertainty head.</p>
+      <p><strong>Loss.</strong> Two-stage training: 10 epochs of MSE to stabilize velocity regression, then Gaussian Negative Log-Likelihood (GNLL) to jointly learn per-axis uncertainty. The diagonal covariance structure ensures a positive-definite measurement noise matrix for EKF integration.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="section section-alt" id="results">
+  <div class="container">
+    <h2 class="section-title">Results</h2>
+    <p class="section-intro">Comparison of DMIAN against BeamsNet and classical INS-DVL across five evaluation trajectories.</p>
+
+    <!-- Full 5×3 trajectory grid -->
+    <div style="margin-bottom:0.55rem;">
+      <img src="./static/results/trajectory_grid_2d.png" alt="2D trajectory grid all methods" class="fig"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="plot-placeholder" style="height:360px;display:none;">./static/rsults/trajectory_grid_2d.png</div>
+    </div>
+    <p class="fig-caption" style="margin-bottom:1.75rem;">2D trajectory comparison across all five evaluation trajectories. Rows: INS-DVL (top), BeamsNet (middle), DMIAN (bottom).</p>
+
+    <!-- Tables + error left, vel + pos right -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+      <!-- Left: table 1, table 2, position error -->
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div>
+          <p class="table-title">Table 1 — Average Position Performance</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Metric</th><th>BeamsNet</th><th>INS-DVL</th><th>DMIAN</th></tr></thead>
+              <tbody>
+                <tr><td>MAE (m)</td><td>0.82632</td><td>1.20609</td><td class="best">0.73442</td></tr>
+                <tr><td>MSE (m²)</td><td>0.87767</td><td>2.52672</td><td class="best">0.74459</td></tr>
+                <tr><td>RMSE (m)</td><td>0.91023</td><td>1.50836</td><td class="best">0.80424</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <p class="table-title">Table 2 — Average Velocity Performance</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Metric</th><th>BeamsNet</th><th>INS-DVL</th><th>DMIAN</th></tr></thead>
+              <tbody>
+                <tr><td>MAE (m/s)</td><td>0.11640</td><td>0.18817</td><td class="best">0.09710</td></tr>
+                <tr><td>MSE (m²/s²)</td><td>0.02389</td><td>0.06481</td><td class="best">0.01252</td></tr>
+                <tr><td>RMSE (m/s)</td><td>0.15368</td><td>0.24539</td><td class="best">0.11137</td></tr>
+                <tr><td>R²</td><td>0.75694</td><td>0.29777</td><td class="best">0.87802</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <img src="./static/results/traj4_pos_error.png" alt="Position error" class="fig"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="plot-placeholder" style="height:180px;display:none;">./static/results/traj4_pos_error.png</div>
+          <p class="fig-caption">Position error over time — Trajectory 4.</p>
+        </div>
+      </div>
+      <!-- Right: velocity and position stacked -->
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div>
+          <img src="./static/results/traj4_vel.png" alt="Velocity" class="fig"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="plot-placeholder" style="height:180px;display:none;">./static/results/traj4_vel.png</div>
+          <p class="fig-caption">Velocity estimates — Trajectory 4.</p>
+        </div>
+        <div>
+          <img src="./static/results/traj4_pos.png" alt="Position" class="fig"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="plot-placeholder" style="height:180px;display:none;">./static/results/traj4_pos.png</div>
+          <p class="fig-caption">Position estimates — Trajectory 4.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABLATION -->
+<section class="section" id="ablation">
+  <div class="container">
+    <h2 class="section-title">Ablation Study</h2>
+    <p class="section-intro">IMU count is varied from 1 to 3 while keeping architecture, training, and process noise Q identical. 1-IMU and 2-IMU results are averaged across all possible IMU combinations.</p>
+
+    <details class="ablation-block">
+      <summary>
+        Velocity and Position Performance by IMU Configuration
+        <i class="fas fa-chevron-down toggle-icon"></i>
+      </summary>
+      <div class="details-inner">
+        <p class="table-title" style="margin-bottom:0.55rem;">Table 3 — Average Velocity (all with DVL)</p>
+        <div class="table-wrap" style="margin-bottom:1.25rem;">
+          <table>
+            <thead><tr><th>Metric</th><th>1 IMU + DVL</th><th>2 IMU + DVL</th><th>3 IMU + DVL</th></tr></thead>
+            <tbody>
+              <tr><td>MAE (m/s)</td><td>0.10510</td><td>0.10154</td><td class="best">0.09587</td></tr>
+              <tr><td>MSE (m²/s²)</td><td>0.01481</td><td>0.01350</td><td class="best">0.01222</td></tr>
+              <tr><td>RMSE (m/s)</td><td>0.12091</td><td>0.11572</td><td class="best">0.10998</td></tr>
+              <tr><td>R²</td><td>0.85781</td><td>0.86895</td><td class="best">0.88017</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
+          <!-- Left: vel ablation + pos ablation stacked -->
+          <div style="display:flex;flex-direction:column;gap:1.25rem;">
+            <div>
+              <img src="./static/results/ablation_vel_mse_boxplot.png" alt="Velocity ablation" class="fig"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+              <div class="plot-placeholder" style="height:185px;display:none;">./static/results/05_velocity_rmse_ablation.png</div>
+              <p class="fig-caption">Velocity RMSE distribution per IMU configuration.</p>
+            </div>
+            <div>
+              <img src="./static/results/ablation_pos_error_per_traj.png" alt="Position ablation" class="fig"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+              <div class="plot-placeholder" style="height:185px;display:none;">./static/results/06_position_error_ablation.png</div>
+              <p class="fig-caption">Position error distribution per IMU configuration.</p>
+            </div>
+          </div>
+          <!-- Right: drift rate CDF + position RMSE CDF stacked -->
+          <div style="display:flex;flex-direction:column;gap:1.25rem;">
+            <div>
+              <img src="./static/results/cdf_drift_rate.png" alt="Drift rate CDF" class="fig"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+              <div class="plot-placeholder" style="height:185px;display:none;">./static/results/07_cdf_drift_rate.png</div>
+              <p class="fig-caption">Cumulative distribution of drift rate.</p>
+            </div>
+            <div>
+              <img src="./static/results/cdf_pos_rmse.png" alt="Position RMSE CDF" class="fig"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+              <div class="plot-placeholder" style="height:185px;display:none;">./static/results/08_cdf_position_rmse.png</div>
+              <p class="fig-caption">Cumulative distribution of position RMSE.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<!-- CITATION -->
+<section class="section section-alt" id="citation">
+  <div class="container">
+    <h2 class="section-title">Citation</h2>
+    <div class="citation-block">
+      <pre>@article{batos2026dmian,
+  title   = {DMIAN: Deep Learning-Based Multi-IMU Fusion for Enhanced Marine Aided Navigation},
+  author  = {Bato\v{s}, Matko and Na\dj{}, \DJ{}ula},
+  journal = {Submitted to Control Engineering Practice},
+  year = {2026},
+  volume = {},
+  pages = {},
+  issn = {},
+  doi = {},
+  url = {}
+}</pre>
+    </div>
+    Citation details will be updated upon article publication.
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="container">
+    <h2 class="section-title">Contact</h2>
+    <div class="contact-block">
+      <p><strong>Matko Batoš</strong></p>
+      <p><a href="mailto:matko.batos@fer.unizg.hr">matko.batos@fer.unizg.hr</a></p>
+      <p class="affil">
+        Laboratory for Underwater Systems and Technologies (LABUST)<br>
+        Faculty of Electrical Engineering and Computing, University of Zagreb<br>
+        Unska ul. 3, 10000 Zagreb, Croatia
       </p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="results">
-    <h2>Results</h2>
-    <p>
-      DMIAN is compared against BeamsNet (Cohen &amp; Klein, 2022), a state-of-the-art learning-based DVL velocity estimator, and a classical INS-DVL fusion baseline.
-      All methods are trained and tested on identical dataset splits and preprocessing.
-    </p>
-
-    <div class="table-wrap">
-      <table>
-        <caption>Table 1. Average velocity performance across evaluation trajectories.</caption>
-        <thead>
-          <tr><th>Metric</th><th>BeamsNet</th><th>INS-DVL</th><th>DMIAN</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>MAE (m/s)</td><td>0.29090</td><td>0.28898</td><td class="best">0.19695</td></tr>
-          <tr><td>MSE (m²/s²)</td><td>0.15682</td><td>0.13968</td><td class="best">0.05770</td></tr>
-          <tr><td>RMSE (m/s)</td><td>0.36255</td><td>0.33059</td><td class="best">0.22875</td></tr>
-          <tr><td>R² Score</td><td>0.9021</td><td>0.9045</td><td class="best">0.9137</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="table-note">Bold values indicate best performance.</p>
-
-    <div class="table-wrap">
-      <table>
-        <caption>Table 2. Average position performance across evaluation trajectories.</caption>
-        <thead>
-          <tr><th>Metric</th><th>BeamsNet</th><th>INS-DVL</th><th>DMIAN</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>MAE (m)</td><td>2.55717</td><td>0.91329</td><td class="best">0.86942</td></tr>
-          <tr><td>MSE (m²)</td><td>9.01657</td><td>1.29841</td><td class="best">1.05917</td></tr>
-          <tr><td>RMSE (m)</td><td>2.66893</td><td>1.06528</td><td class="best">0.94585</td></tr>
-          <tr><td>R² Score</td><td>0.75329</td><td>0.76766</td><td class="best">0.87540</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="table-note">DMIAN achieves ~65% lower position RMSE vs. BeamsNet and ~11% improvement over INS-DVL.</p>
-
-    <div class="figure-grid">
-      <div class="figure">
-        <img src="static/01_velocity_timeseries.png" alt="Velocity time series" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <div class="fig-placeholder" style="display:none;">01_velocity_timeseries.png</div>
-        <p class="figure-caption"><b>Figure 2.</b> Velocity time series (x and y axes). DMIAN maintains alignment with ground truth across low and high-dynamic motion segments.</p>
-      </div>
-      <div class="figure">
-        <img src="static/02_position_timeseries.png" alt="Position time series" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <!-- <div class="fig-placeholder" style="display:none;">02_position_timeseries.png</div> -->
-        <p class="figure-caption"><b>Figure 3.</b> Position time series (x and y axes). BeamsNet exhibits frequent outliers; INS-DVL shows noise jitter; DMIAN closely tracks ground truth.</p>
-      </div>
-    </div>
-
-    <div class="figure">
-      <img src="static/03_2d_trajectory.png" alt="2D trajectory comparison" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-      <!-- <div class="fig-placeholder" style="min-height:260px;">03_2d_trajectory.png</div> -->
-      <p class="figure-caption"><b>Figure 4.</b> Four representative evaluation trajectories. Trajectories 1–3 are manually driven; Trajectory 4 is autonomous. DMIAN maintains the closest alignment to ground truth across all four.</p>
-    </div>
-
-    <div class="figure">
-      <img src="static/04_position_error.png" alt="Position error over time" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-      <!-- <div class="fig-placeholder" style="min-height:180px;">04_position_error.png</div> -->
-      <p class="figure-caption"><b>Figure 5.</b> Position estimation error over time for Trajectory 2. DMIAN (RMSE 0.50 m) caps the error at a lower level than BeamsNet (0.62 m) and INS-DVL (0.73 m).</p>
-    </div>
-  </section>
-
-  <section id="ablation">
-    <h2>Ablation Study</h2>
-    <p>
-      The 1 IMU+DVL, 2 IMU+DVL, and 3 IMU+DVL configurations vary only the number of IMU inputs — architecture and training procedure remain identical.
-      To avoid selection bias, the 1 IMU and 2 IMU configurations report average performance across all possible IMU combinations.
-    </p>
-
-    <div class="table-wrap">
-      <table>
-        <caption>Table 3. Average velocity performance of proposed model variants.</caption>
-        <thead>
-          <tr><th>Metric</th><th>1 IMU + DVL</th><th>2 IMU + DVL</th><th>3 IMU + DVL</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>MAE (m/s)</td><td>0.19756</td><td>0.19747</td><td class="best">0.19695</td></tr>
-          <tr><td>MSE (m²/s²)</td><td>0.05763</td><td class="best">0.05728</td><td>0.05770</td></tr>
-          <tr><td>RMSE (m/s)</td><td>0.22973</td><td>0.22951</td><td class="best">0.22875</td></tr>
-          <tr><td>R² Score</td><td>0.9132</td><td class="best">0.9137</td><td class="best">0.9137</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="table-note">The impact of additional IMUs is more pronounced in position accuracy than in instantaneous velocity metrics.</p>
-
-    <div class="figure-grid">
-      <div class="figure">
-        <img src="static/05_velocity_rmse_ablation.png" alt="Velocity RMSE ablation" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <!-- <div class="fig-placeholder">05_velocity_rmse_ablation.png</div> -->
-        <p class="figure-caption"><b>Figure 6.</b> Velocity RMSE distribution across trajectories per IMU configuration.</p>
-      </div>
-      <div class="figure">
-        <img src="static/06_position_error_ablation.png" alt="Position error ablation" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <!-- <div class="fig-placeholder">06_position_error_ablation.png</div> -->
-        <p class="figure-caption"><b>Figure 7.</b> Position error distribution per trajectory and IMU configuration. Gains are most visible in dynamic trajectories.</p>
-      </div>
-    </div>
-
-    <div class="figure-grid">
-      <div class="figure">
-        <img src="static/07_cdf_drift_rate.png" alt="CDF drift rate" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <!-- <div class="fig-placeholder">07_cdf_drift_rate.png</div> -->
-        <p class="figure-caption"><b>Figure 8.</b> CDF of drift rate across the full test set. The 3 IMU configuration achieves lower drift for ~70% of test data.</p>
-      </div>
-      <div class="figure">
-        <img src="static/08_cdf_position_rmse.png" alt="CDF position RMSE" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <!-- <div class="fig-placeholder">08_cdf_position_rmse.png</div> -->
-        <p class="figure-caption"><b>Figure 9.</b> CDF of position RMSE. The 3 IMU configuration reaches any given error threshold with higher probability.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="citation">
-    <h2>Citation</h2>
-    <pre class="bibtex"><span class="key">@article</span>{batos2025dmian,
-  <span class="key">title</span>   = {<span class="val">DMIAN: Deep Learning-Based Multi-IMU Fusion for Enhanced Marine Aided Navigation</span>},
-  <span class="key">author</span>  = {<span class="val">Bato\v{s}, Matko and Na\dj{}, \Djula</span>},
-  <span class="key">year</span>    = {<span class="val">2025</span>},
-  <span class="key">note</span>    = {<span class="val">Laboratory for Underwater Systems and Technologies (LABUST), University of Zagreb</span>}
-}</pre>
-  </section>
-
-</main>
-
+<!-- FOOTER -->
 <footer>
-  <p>
-    LABUST &middot; University of Zagreb &middot; CoE MARBLE &nbsp;|&nbsp;
-    <a href="https://github.com/labust/dmian">GitHub</a> &nbsp;|&nbsp;
-    <a href="https://huggingface.co/datasets/matkodu/dmian-dataset">Dataset</a>
-  </p>
+  <div class="footer-inner">
+    <div class="footer-logos">
+      <a href="https://www.fer.unizg.hr" target="_blank">
+        <img src="./static/logos/fer_logo.png" alt="UNIZG-FER" style="height:80px; position:relative;">
+      </a>
+      <a href="https://labust.fer.hr/" target="_blank">
+      <img src="./static/logos/labust_logo.png" alt="LABUST" style="height:80px; position:relative;">
+      </a>
+    </div>
+    <p class="footer-title">DMIAN: Deep Learning-Based Multi-IMU Fusion for Enhanced Marine Aided Navigation</p>
+    <p class="footer-sub">
+      &copy; 2026 Matko Batoš, Đula Nađ &nbsp;&middot;&nbsp; UNIZG-FER, LABUST<br>
+      <a href="https://github.com/labust/dmian">GitHub</a>
+    </p>
+  </div>
 </footer>
 
 </body>
