@@ -248,6 +248,24 @@
       border: 1px solid var(--border);
       border-radius: 4px;
     }
+    .citation-block {
+      position: relative;
+    }
+    .citation-copy-btn {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.75rem;
+      background: transparent;
+      color: var(--blue-dark);
+      border: none;
+      padding: 0.25rem 0.35rem;
+      font-size: 1.15rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .citation-copy-btn:hover { color: var(--blue-light); }
+    .citation-copy-btn .fa-check { color: #2a9d5c; }
 
     /* CONTACT */
     .contact-block { font-size: 0.94rem; }
@@ -301,7 +319,7 @@
       Centre of Excellence in Maritime Robotics and Technologies for Sustainable Blue Economy (CoE MARBLE)
     </div>
     <div class="hero-links">
-      <a href="#" class="btn" onclick="alert('Paper link will be available after publication.'); return false;">
+      <a href="https://www.sciencedirect.com/science/article/pii/S0967066126002352" target="_blank" class="btn">
         <i class="fas fa-file-lines"></i> Paper
       </a>
       <a href="https://github.com/labust/dmian" target="_blank" class="btn">
@@ -583,20 +601,21 @@
 <section class="section section-alt" id="citation">
   <div class="container">
     <h2 class="section-title">Citation</h2>
+    <p>If you use this work, please cite:</p>
     <div class="citation-block">
-      <pre>@article{batos2026dmian,
-  title   = {DMIAN: Deep Learning-Based Multi-IMU Fusion for Enhanced Marine Aided Navigation},
-  author  = {Bato\v{s}, Matko and Na\dj{}, \DJ{}ula},
-  journal = {Submitted to Control Engineering Practice},
+      <button class="citation-copy-btn" onclick="copyCitation(this)" title="Copy citation"><i class="fa-regular fa-clipboard"></i></button>
+      <pre id="citation-text">@article{batos2026dmian,
+  title = {{DMIAN}: deep learning-based {Multi-IMU} fusion for enhanced marine aided navigation},
+  author = {Bato\v{s}, Matko and Na\dj{}, \DJ{}ula},
+  journal = {Control Engineering Practice},
+  volume = {173},
+  pages = {106991},
   year = {2026},
-  volume = {},
-  pages = {},
-  issn = {},
-  doi = {},
-  url = {}
+  issn = {0967-0661},
+  doi = {10.1016/j.conengprac.2026.106991},
+  url = {https://www.sciencedirect.com/science/article/pii/S0967066126002352}
 }</pre>
     </div>
-    Citation details will be updated upon article publication.
   </div>
 </section>
 
@@ -635,5 +654,14 @@
   </div>
 </footer>
 
+  <script>
+    function copyCitation(btn) {
+      const text = document.getElementById('citation-text').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+        setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-clipboard"></i>'; }, 2000);
+      });
+    }
+  </script>
 </body>
 </html>

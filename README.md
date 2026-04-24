@@ -75,7 +75,7 @@ You can pass multiple test trajectories:
 --test-dirs path/to/traj_01 path/to/traj_02 path/to/traj_03
 ```
 
-Results are saved under `../results/<trajectory_name>/`.
+Results are saved under `./results/<trajectory_name>/`.
 
 ### 4. Auto-generate Config
 
@@ -100,19 +100,17 @@ If you use this work, please cite:
 
 ```bibtex
 @article{batos2026dmian,
-  title   = {DMIAN: Deep Learning-Based Multi-IMU Fusion for Enhanced Marine Aided Navigation},
-  author  = {Bato\v{s}, Matko and Na\dj{}, \DJ{}ula},
-  journal = {Submitted to Control Engineering Practice},
+  title = {{DMIAN}: deep learning-based {Multi-IMU} fusion for enhanced marine aided navigation},
+  author = {Bato\v{s}, Matko and Na\dj{}, \DJ{}ula},
+  journal = {Control Engineering Practice},
+  volume = {173},
+  pages = {106991},
   year = {2026},
-  volume = {},
-  pages = {},
-  issn = {},
-  doi = {},
-  url = {}
+  issn = {0967-0661},
+  doi = {10.1016/j.conengprac.2026.106991},
+  url = {https://www.sciencedirect.com/science/article/pii/S0967066126002352}
 }
 ```
-Citation details will be updated upon article publication.
-
 
 ---
 
